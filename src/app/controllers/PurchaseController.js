@@ -1,6 +1,7 @@
 const Ad = require('../models/Ad')
 const User = require('../models/User')
-const Mail = require('../services/Mail')
+const PurchaseMail = require('../jobs/PurchaseMail')
+const Queue = require('../services/Queue')
 
 class PurchaseController {
   async store (req, res) {
@@ -14,13 +15,12 @@ class PurchaseController {
     */
     const purchaseAd = await Ad.findById(ad).populate('author') // Verificar se existe o anuncio que o usuário quer fazer a intenção
     const user = await User.findById(req.userId)
-
-    await Mail.sendMail({
-      from: '"Kilson®" <kilson@email.com>',
-      to: purchaseAd.author.email,
-      subject: `Solicitação de compra: ${purchaseAd.title}`,
-      html: `<p>Teste: ${content}</p>`
-    })
+    // const user = { name: 'Kilson', email: 'kilson@kil.com' }
+    Queue.create(PurchaseMail.key, {
+      ad: purchaseAd,
+      user,
+      content
+    }).save() // Aqui o Queue salva esse job em nosso redis, pra ele então executar a fila
 
     return res.send()
   }
