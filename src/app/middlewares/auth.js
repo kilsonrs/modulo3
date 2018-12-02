@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
 
   /*
   Quando enviamos o Header Authorization para o backend, ele não vai só o token.
-  Vai também a palavra 'Bearer' escrito na frente dele, com um espaço depois.
+  Vai também a palavra 'Bearer' escrito na frente, antes dele, com um espaço depois.
 
   Authorization: Bearer TOKEN
 
@@ -47,7 +47,9 @@ module.exports = async (req, res, next) => {
 
     return next()
   } catch (err) {
+    console.log(err)
     // Usamos try catch por volta, porque caso o jwt.verify retorne um erro, ele vai cair aqui dentro do catch.
-    return res.status(401).json({ error: 'Token Invalid' })
+    // return res.status(401).json({ error: 'Token Invalid' })
+    return res.status(401).json(err)
   }
 }

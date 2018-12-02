@@ -16,7 +16,7 @@ class PurchaseMail {
     const { ad, user, content } = job.data // .data -> propriedade do job que tem todas essas informações
 
     await Mail.sendMail({
-      from: '"Kilson®" <kilson@email.com>',
+      from: '"Kilson®" <kilson2@email.com>',
       to: ad.author.email,
       subject: `Solicitação de compra: ${ad.title}`,
       // html: `<p>Teste: ${content}</p>`
