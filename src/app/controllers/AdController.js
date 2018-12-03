@@ -67,6 +67,7 @@ class AdController {
 
   // Criar um Ad
   async store (req, res) {
+    // throw new Error() // Pra gerar um erro de teste
     const ad = await Ad.create({ ...req.body, author: req.userId }) // Esse 'req.userId' preenchemos lá em nosso middleware de autenticação com o Id do usuário que vem pelo 'jwt'.
 
     return res.json(ad)

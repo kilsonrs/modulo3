@@ -1,5 +1,6 @@
 const Ad = require('../models/Ad')
 const User = require('../models/User')
+const Purchase = require('../models/Purchase')
 const PurchaseMail = require('../jobs/PurchaseMail')
 const Queue = require('../services/Queue')
 
@@ -22,7 +23,15 @@ class PurchaseController {
       content
     }).save() // Aqui o Queue salva esse job em nosso redis, pra ele então executar a fila
 
-    return res.send()
+    const purchase = await Purchase.create({
+      user,
+      ad: purchaseAd,
+      content
+    })
+
+    return res.json(purchase)
+
+    // return res.send()
   }
 }
 
