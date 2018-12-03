@@ -16,6 +16,9 @@ class PurchaseController {
     */
     const purchaseAd = await Ad.findById(ad).populate('author') // Verificar se existe o anuncio que o usuário quer fazer a intenção
     const user = await User.findById(req.userId)
+    if (purchaseAd.purchasedBy) {
+      return res.json({ Error: 'Ad already purchased' })
+    }
     // const user = { name: 'Kilson', email: 'kilson@kil.com' }
     Queue.create(PurchaseMail.key, {
       ad: purchaseAd,
@@ -32,6 +35,17 @@ class PurchaseController {
     return res.json(purchase)
 
     // return res.send()
+  }
+  async update (req, res) {
+    const { ad, user } = await Purchase.findById(req.params.id)
+    const itemComprado = await Ad.findByIdAndUpdate(
+      ad,
+      { purchasedBy: user },
+      {
+        new: true
+      }
+    )
+    return res.json(itemComprado)
   }
 }
 

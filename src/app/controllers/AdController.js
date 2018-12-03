@@ -32,7 +32,7 @@ class AdController {
       // RegExp -> Para buscar em qualquer lugar no título.
       // 'i' -> Transforma RegExp em case-insensitive.
     }
-
+    filters.purchasedBy = null
     /*
     Ad.paginate({}) -> Paginação na listagem. Plugin 'mongoose-paginate', importado no model 'Ad'.
     {} -> Filtro. Exemplo: { price:2000 }
@@ -80,8 +80,8 @@ class AdController {
     Depois recebe todas as informações que queremos atualizar 'naquilo lá' (no 'model').
     Depois passamos um array de configuração. Passamos aqui o 'new:' sendo 'true'.
 
-    Esse new:true vai, depois de dar o update, ele vai atualizar essa informação aqui do ad com as novas informações,
-    pra que a possamos retorna-las para o front-end já atualizadas.
+    Esse new:true vai, depois de dar o update, ele vai atualizar essa informação aqui do ad com as
+    novas informações, pra que a possamos retorna-las para o front-end já atualizadas.
     */
     const ad = await Ad.findByIdAndUpdate(req.params.id, req.body, {
       new: true
